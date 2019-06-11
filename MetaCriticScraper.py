@@ -23,9 +23,7 @@ def genre_get(output):
         break
 
     soup = BeautifulSoup(result.content.decode(), "lxml")
-
     main_soup = soup.find("ul", {"class": "genre_nav"})
-
     link_list = []
 
     for content in main_soup.find_all('a', href=True):
@@ -59,9 +57,7 @@ def game_get(output, genre):
         break
 
     soup = BeautifulSoup(genre_page.content.decode(), "lxml")
-
     genre_soup = soup.find("ol", {"class": "list_products list_product_condensed"})
-
     game_list = []
 
     for game in genre_soup.find_all('a', href=True):
@@ -126,9 +122,7 @@ def review_get(output, review, info_string):
         break
 
     soup = BeautifulSoup(review_page.content.decode(), "lxml")
-
     review_soup = soup.find("ol", {"class": "reviews user_reviews"})
-
     review_list = []
 
     if soup.find("div", {"class": "msg msg_no_reviews"}):
@@ -144,14 +138,12 @@ def review_get(output, review, info_string):
     username = username_div.text
 
     review_date = user_review.find("div", {"class": "date"}).text
-
     review_details = username.strip() + " | " + review_date.strip()
 
     review_score_div = user_review.find("div", {"class": "review_grade"})
     review_score = review_score_div.text.strip()
 
     review_contents = user_review.find("div", {"class": "review_body"})
-
     review_content = ""
 
     if review_contents.find("span", {"class": "blurb blurb_expanded"}):
@@ -174,18 +166,8 @@ def review_get(output, review, info_string):
     if output:
         print(review_string)
 
-    post(post_string)
+    print(post_string)
 
-
-def post(message):
-    graph = facebook.GraphAPI(access_token='EAACVS6jUj0QBAOcE6vFDSL728rts3'
-                                           '680eUgZB2CUKxMATRAepplnxNVaFrzNwc'
-                                           'AZCjCZC96B4ZCFJySyP3jWYFvRhpMMOYQ2NQMc'
-                                           'lZA6cP68eF7PjrrJImGgIEwwypF'
-                                           'ZBZCpObJyo9vV30sOpsonSkVPDlZAvLkd7'
-                                           'm0n83vrxkWtL3Xl1E2pE0wW', version="3.1")
-
-    graph.put_object(parent_object='me', connection_name='feed', message=message)
 
 # main
 genre_get(False)
